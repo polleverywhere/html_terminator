@@ -1,3 +1,5 @@
+```
+　　　　　　　　　　　　　　　　　　　　　　　　　　＿ _
 　　　　　 r┐　　　　　　　　　　　　　　　,r:ｰ'´.::.:: .:..｀ヽ、
 　　　　　 |i |　　　　　　　　　　　 　 　 f´.::.,__.:::::..::::::::::::::ヽ
 　　　　　 |l |　　　　　　　　　　　　　　ﾁr'´　　 ￣￣ヾ;::.:.|
@@ -22,6 +24,7 @@
 　　 しt_;ｭ',//　　 ヽ、 ／　　　 | |iiiiiiiiiiiiiiiiiiiiillllllヽ、　　　　 　 |　　　　｀　|
 　 　 （_,イｰ'　　　 　 ´　　　　　| |iiiiiiiiiiiiiiiiiiiiiiiiiiiiiillヽ、　　　　 ||　　　 ヽ　|
 　　　　 └-､ 　　ノ´　 　 　 　 | |iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii|　　　　　||　　　　　 |
+```
 
 # HtmlTerminator
 
