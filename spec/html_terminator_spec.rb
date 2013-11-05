@@ -23,4 +23,10 @@ describe HtmlTerminator do
     @student.last_name = "Hello <img>"
     @student.last_name.should == "Hello"
   end
+
+  it "should not blow up if value is nil" do
+    @student = Student.new
+    @student.first_name = nil
+    @student.first_name.should == nil
+  end
 end

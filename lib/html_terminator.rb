@@ -7,7 +7,7 @@ module HtmlTerminator
   }
 
   def self.sanitize(val)
-    Sanitize.clean(val, SANITIZE_OPTIONS).strip
+    Sanitize.clean(val, SANITIZE_OPTIONS).strip unless val.nil?
   end
 
   module ClassMethods
