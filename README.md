@@ -48,7 +48,7 @@ Or install it yourself as:
 
 In your Rails models:
 
-    terminate_html :field1, :field2, :field 3
+    terminate_html :field1, :field2, :field3
 
 or
 
