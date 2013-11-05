@@ -28,6 +28,8 @@
 
 # HtmlTerminator
 
+[![Build Status](https://travis-ci.org/polleverywhere/html_terminator.png?branch=master)](https://travis-ci.org/polleverywhere/html_terminator)
+
 Visits Active Record fields and terminates unsafe HTML.
 
 ## Installation
