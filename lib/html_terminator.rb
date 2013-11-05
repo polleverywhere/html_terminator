@@ -23,10 +23,14 @@ module HtmlTerminator
         list
       end
 
-      if args.is_a?(Array)
+      if args.length == 1
+        if args[0].is_a?(Symbol)
+          self.html_terminator_fields = args
+        elsif args[0].is_a?(Object)
+          self.html_terminator_fields -= (args[0][:except] || [])
+        end
+      elsif args.length > 1
         self.html_terminator_fields = args
-      elsif args.is_a?(Object) and args.include?(:except)
-        self.html_terminator_fields -= args[:except]
       end
 
       unless self.html_terminator_fields.empty?
