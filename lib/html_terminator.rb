@@ -7,7 +7,11 @@ module HtmlTerminator
   }
 
   def self.sanitize(val)
-    Sanitize.clean(val, SANITIZE_OPTIONS).strip unless val.nil?
+    if val and val.is_a?(String)
+      Sanitize.clean(val, SANITIZE_OPTIONS).strip
+    else
+      val
+    end
   end
 
   module ClassMethods
