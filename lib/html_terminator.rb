@@ -7,8 +7,14 @@ module HtmlTerminator
   }
 
   def self.sanitize(val)
-    if val and val.is_a?(String)
-      Sanitize.clean(val, SANITIZE_OPTIONS).strip
+    if val && val.is_a?(String)
+      # Temporary fix: skip sanitization if only one bracket.
+      # Allows answers like "1 < 2"
+      if val.count("<") + val.count(">") == 1
+        val
+      else
+        Sanitize.clean(val, SANITIZE_OPTIONS).strip.gsub(/&amp;/, "&")
+      end
     else
       val
     end
