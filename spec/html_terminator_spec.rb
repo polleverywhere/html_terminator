@@ -33,6 +33,6 @@ describe HtmlTerminator do
   it "doesn't blow up if value is not a string" do
     @user = OnlyFirstName.new
     @user.first_name = 1
-    @user.first_name.should == 1
+    @user.first_name.should == "1"
   end
 end
