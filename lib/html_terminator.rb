@@ -8,7 +8,7 @@ module HtmlTerminator
 
   def self.sanitize(val)
     if val.is_a?(String) && !skip_sanitize?(val)
-      Sanitize.clean(val, SANITIZE_OPTIONS).strip.gsub(/&amp;/, "&")
+      Sanitize.fragment(val, SANITIZE_OPTIONS).strip.gsub(/&amp;/, "&")
     else
       val
     end
