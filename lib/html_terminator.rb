@@ -7,11 +7,17 @@ module HtmlTerminator
   }
 
   def self.sanitize(val)
-    if val and val.is_a?(String)
-      Sanitize.clean(val, SANITIZE_OPTIONS).strip
+    if val.is_a?(String) && !skip_sanitize?(val)
+      Sanitize.fragment(val, SANITIZE_OPTIONS).strip.gsub(/&amp;/, "&")
     else
       val
     end
+  end
+
+  # Don't sanitize if only one bracket is present.
+  # Without this, "1 < 2" gets incorrectly sanitized as "1".
+  def self.skip_sanitize?(val)
+    val.count("<") + val.count(">") == 1
   end
 
   module ClassMethods
@@ -45,9 +51,9 @@ module HtmlTerminator
 
           # sanitize reads
           self.html_terminator_fields.each do |attr|
-            define_method "#{attr}" do |*args|
+            define_method(attr) do |*rargs|
               # sanitize it
-              HtmlTerminator.sanitize super(*args)
+              HtmlTerminator.sanitize super(*rargs)
             end
           end
         end

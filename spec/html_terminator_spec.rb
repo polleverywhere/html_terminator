@@ -14,6 +14,30 @@ describe HtmlTerminator do
     @user.age.should == 3
   end
 
+  it "doesn't escape ampersands" do
+    @user = OnlyFirstName.new
+
+    @user.first_name = "A & B & C"
+    @user.first_name.should == "A & B & C"
+  end
+
+  it "skips sanitize when only one bracket" do
+    @user = OnlyFirstName.new
+
+    @user.first_name = "1 < 2"
+    @user.first_name.should == "1 < 2"
+
+    @user.first_name = "2 > 1"
+    @user.first_name.should == "2 > 1"
+  end
+
+  it "handles ampersands" do
+    @user = OnlyFirstName.new
+
+    @user.first_name = "Mr. & Mrs. Smith"
+    @user.first_name.should == "Mr. & Mrs. Smith"
+  end
+
   it "sanitizes all except what is specified" do
     @user = ExceptFirstName.new
 
