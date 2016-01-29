@@ -59,4 +59,10 @@ describe HtmlTerminator do
     @user.first_name = 1
     @user.first_name.should == "1"
   end
+
+  it "honors options that are passed in" do
+    @user = FirstNameWithOptions.new
+    @user.first_name = "Hello <flexbox></flexbox><hr><br><img>"
+    @user.first_name.should == "Hello <flexbox></flexbox>"
+  end
 end

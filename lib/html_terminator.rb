@@ -1,28 +1,26 @@
 require "html_terminator/version"
+require "html_terminator/extract_options"
 require 'sanitize'
 
 module HtmlTerminator
   SANITIZE_OPTIONS = {
-    :elements => ["b", "em", "i", "strong", "u", "br"]
+    :elements => []
   }
 
-  def self.sanitize(val)
-    if val.is_a?(String) && !skip_sanitize?(val)
-      Sanitize.fragment(val, SANITIZE_OPTIONS).strip.gsub(/&amp;/, "&")
+  def self.sanitize(val, config)
+    if val.is_a?(String)
+      # Sanitize produces escaped content.
+      # Unescape it to get the raw html
+      CGI.unescapeHTML Sanitize.fragment(val, config).strip
     else
       val
     end
   end
 
-  # Don't sanitize if only one bracket is present.
-  # Without this, "1 < 2" gets incorrectly sanitized as "1".
-  def self.skip_sanitize?(val)
-    val.count("<") + val.count(">") == 1
-  end
-
   module ClassMethods
     def terminate_html(*args)
       class_attribute :html_terminator_fields
+      class_attribute :html_terminator_options
 
       # Table may not exist yet when schema is initially getting loaded
       if self.table_exists?
@@ -35,15 +33,12 @@ module HtmlTerminator
           list
         end
 
-        if args.length == 1
-          if args[0].is_a?(Symbol)
-            self.html_terminator_fields = args
-          elsif args[0].is_a?(Object)
-            self.html_terminator_fields -= (args[0][:except] || [])
-          end
-        elsif args.length > 1
-          self.html_terminator_fields = args
-        end
+        self.html_terminator_options = SANITIZE_OPTIONS.merge(args.extract_options!)
+        self.html_terminator_fields = args if args.length > 0
+
+        # Handle exceptions
+        exceptions = self.html_terminator_options.delete(:except) || []
+        self.html_terminator_fields -= (exceptions)
 
         unless self.html_terminator_fields.empty?
           # sanitize writes
@@ -53,7 +48,7 @@ module HtmlTerminator
           self.html_terminator_fields.each do |attr|
             define_method(attr) do |*rargs|
               # sanitize it
-              HtmlTerminator.sanitize super(*rargs)
+              HtmlTerminator.sanitize super(*rargs), self.html_terminator_options
             end
           end
         end
@@ -67,7 +62,7 @@ module HtmlTerminator
         value = self[field]
 
         unless value.nil?
-          self[field] = HtmlTerminator.sanitize(value)
+          self[field] = HtmlTerminator.sanitize(value, self.html_terminator_options)
         end
       end
     end

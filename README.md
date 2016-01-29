@@ -56,6 +56,14 @@ or
 
     terminate_html :except => [:field8, :field9]
 
+## Options
+
+Out of the box, HTML Terminator will strip out ALL html. You can pass in specific elements you want to preserve like this:
+
+    terminate_html :field1, :elements => ["b", "i", "em"]
+
+Learn more about configuration options [Here](https://github.com/rgrove/sanitize#custom-configuration)
+
 ## Contributing
 
 1. Fork it

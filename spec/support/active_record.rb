@@ -18,6 +18,12 @@ ActiveRecord::Schema.define do
     t.column "last_name",  :text
     t.column "age", :integer
   end
+
+  create_table "first_name_with_options", :force => true do |t|
+    t.column "first_name",  :text
+    t.column "last_name",  :text
+    t.column "age", :integer
+  end
 end
 
 class OnlyFirstName < ActiveRecord::Base
@@ -30,4 +36,10 @@ class ExceptFirstName < ActiveRecord::Base
   include HtmlTerminator
 
   terminate_html :except => [:first_name]
+end
+
+class FirstNameWithOptions < ActiveRecord::Base
+  include HtmlTerminator
+
+  terminate_html :first_name, :elements => ["flexbox"]
 end
