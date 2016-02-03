@@ -71,5 +71,10 @@ describe HtmlTerminator do
       val = HtmlTerminator.sanitize "<flexbox></flexbox><hr><br><img>"
       val.should == ""
     end
+
+    it "marks the output as html_safe" do
+      val = HtmlTerminator.sanitize "<flexbox></flexbox><hr><br><img>"
+      val.html_safe?.should == true
+    end
   end
 end
