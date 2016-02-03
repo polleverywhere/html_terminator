@@ -65,4 +65,11 @@ describe HtmlTerminator do
     @user.first_name = "Hello <flexbox></flexbox><hr><br><img>"
     @user.first_name.should == "Hello <flexbox></flexbox>"
   end
+
+  describe "#sanitize" do
+    it "strips out all html by default" do
+      val = HtmlTerminator.sanitize "<flexbox></flexbox><hr><br><img>"
+      val.should == ""
+    end
+  end
 end

@@ -7,7 +7,7 @@ module HtmlTerminator
     :elements => []
   }
 
-  def self.sanitize(val, config)
+  def self.sanitize(val, config = {})
     if val.is_a?(String)
       # Sanitize produces escaped content.
       # Unescape it to get the raw html
