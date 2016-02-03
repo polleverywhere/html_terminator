@@ -1,9 +1,9 @@
-require 'active_record'
-require 'html_terminator'
+require "active_record"
+require "html_terminator"
 
 ActiveRecord::Base.establish_connection({
-  :adapter => 'sqlite3',
-  :database => ':memory:'
+  :adapter => "sqlite3",
+  :database => ":memory:"
 })
 
 ActiveRecord::Schema.define do

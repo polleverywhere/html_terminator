@@ -1,6 +1,6 @@
 require "html_terminator/version"
 require "html_terminator/extract_options"
-require 'sanitize'
+require "sanitize"
 
 module HtmlTerminator
   SANITIZE_OPTIONS = {
