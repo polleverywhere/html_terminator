@@ -13,7 +13,7 @@ ActiveRecord::Schema.define do
     t.column "age", :integer
   end
 
-  create_table "except_first_names", :force => true do |t|
+  create_table "two_fields_with_options", :force => true do |t|
     t.column "first_name",  :text
     t.column "last_name",  :text
     t.column "age", :integer
@@ -32,10 +32,11 @@ class OnlyFirstName < ActiveRecord::Base
   terminate_html :first_name
 end
 
-class ExceptFirstName < ActiveRecord::Base
+class TwoFieldsWithOptions < ActiveRecord::Base
   include HtmlTerminator
 
-  terminate_html :except => [:first_name]
+  terminate_html :first_name, elements: ["strong"]
+  terminate_html :last_name, elements: ["em"]
 end
 
 class FirstNameWithOptions < ActiveRecord::Base
