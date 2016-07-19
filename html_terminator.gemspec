@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["steel@polleverywhere.com", "matt@polleverywhere.com"]
   spec.description   = %q{Terminate Active Records fields of html}
   spec.summary       = %q{Terminate Active Records fields of html}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/polleverywhere/html_terminator/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
