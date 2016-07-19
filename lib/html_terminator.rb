@@ -11,7 +11,7 @@ module HtmlTerminator
     if val.is_a?(String)
       # Sanitize produces escaped content.
       # Unescape it to get the raw html
-      CGI.unescapeHTML(Sanitize.fragment(val, config).strip).html_safe
+      CGI.unescapeHTML(Sanitize.fragment(val, config).strip)
     else
       val
     end

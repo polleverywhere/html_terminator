@@ -56,9 +56,14 @@ describe HtmlTerminator do
       expect(val).to eql("")
     end
 
-    it "marks the output as html_safe" do
+    it "does not mark the output as html_safe" do
       val = HtmlTerminator.sanitize "<flexbox></flexbox><hr><br><img>"
-      expect(val.html_safe?).to eql(true)
+      expect(val.html_safe?).to eql(false)
+    end
+
+    it "does not escape output that isn't stripped" do
+      val = HtmlTerminator.sanitize "<div>I said, \"Hello, John O'hare.\"</div>"
+      expect(val).to eql("I said, \"Hello, John O'hare.\"")
     end
   end
 
