@@ -1,4 +1,7 @@
 script: bundle exec rspec
 language: ruby
 rvm:
-  - 2.0.0
+  - 2.1.10
+  - 2.2.5
+  - 2.3.1
+gemfile: Gemfile.ci
