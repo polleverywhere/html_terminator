@@ -14,28 +14,28 @@ describe HtmlTerminator do
     expect(user.age).to eql(3)
   end
 
-  it "doesn't escape ampersands" do
+  it "escapes ampersands" do
     user = OnlyFirstName.new
 
     user.first_name = "A & B & C"
-    expect(user.first_name).to eql("A & B & C")
+    expect(user.first_name).to eql("A &amp; B &amp; C")
   end
 
-  it "skips sanitize when only one bracket" do
+  it "escapes (but doesn't remove when only one bracket" do
     user = OnlyFirstName.new
 
     user.first_name = "1 < 2"
-    expect(user.first_name).to eql("1 < 2")
+    expect(user.first_name).to eql("1 &lt; 2")
 
     user.first_name = "2 > 1"
-    expect(user.first_name).to eql("2 > 1")
+    expect(user.first_name).to eql("2 &gt; 1")
   end
 
-  it "handles ampersands" do
+  it "escapes ampersands" do
     user = OnlyFirstName.new
 
     user.first_name = "Mr. & Mrs. Smith"
-    expect(user.first_name).to eql("Mr. & Mrs. Smith")
+    expect(user.first_name).to eql("Mr. &amp; Mrs. Smith")
   end
 
   it "doesn't blow up if value is not a string" do
@@ -64,6 +64,11 @@ describe HtmlTerminator do
     it "does not escape output that isn't stripped" do
       val = HtmlTerminator.sanitize "<div>I said, \"Hello, John O'hare.\"</div>"
       expect(val).to eql("I said, \"Hello, John O'hare.\"")
+    end
+
+    it "escapes what isn't stripped out" do
+      val = HtmlTerminator.sanitize '<br>"><br><i>ital</i><b>"><b>', :elements => %w(i)
+      expect(val).to eql("&quot;&gt; <i>ital</i>&quot;&gt;")
     end
   end
 

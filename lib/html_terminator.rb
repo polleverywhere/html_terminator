@@ -1,14 +1,23 @@
 require "html_terminator/version"
 require "html_terminator/extract_options"
 require "sanitize"
+require "cgi"
 
 module HtmlTerminator
+  ESCAPE_TEXT = lambda do |env|
+    node = env[:node]
+    return unless node.text?
+    node.content = CGI.escape_html node.content
+  end
+
   SANITIZE_OPTIONS = {
-    :elements => []
+    :elements => [],
+    :transformers => [ESCAPE_TEXT]
   }
 
   def self.sanitize(val, config = {})
     if val.is_a?(String)
+      config = SANITIZE_OPTIONS.clone.merge(config)
       # Sanitize produces escaped content.
       # Unescape it to get the raw html
       CGI.unescapeHTML(Sanitize.fragment(val, config).strip)
@@ -38,7 +47,6 @@ module HtmlTerminator
         end
 
         options = args.extract_options!
-        options = SANITIZE_OPTIONS.clone.merge(options)
 
         valid_fields = self.fields & args
 
