@@ -58,6 +58,8 @@ module HtmlTerminator
           end
         end
       end
+    rescue ActiveRecord::ConnectionNotEstablished
+      # Treat as if the table doesn't exist
     end
   end
 
