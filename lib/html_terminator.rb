@@ -29,37 +29,30 @@ module HtmlTerminator
     end
 
     def terminate_html(*args)
-      # Table may not exist yet when schema is initially getting loaded
-      if self.table_exists?
-        # object key/value of field => options
-        unless method_defined?(:html_terminator_fields)
-          class_attribute :html_terminator_fields
-          self.html_terminator_fields = {}
-        end
+      # object key/value of field => options
+      unless method_defined?(:html_terminator_fields)
+        class_attribute :html_terminator_fields
+        self.html_terminator_fields = {}
+      end
 
-        options = args.extract_options!
-        options = SANITIZE_OPTIONS.clone.merge(options)
+      options = args.extract_options!
+      options = SANITIZE_OPTIONS.clone.merge(options)
 
-        valid_fields = self.fields & args
+      args.each do |field|
+        self.html_terminator_fields[field] = options.deep_dup
+      end
 
-        valid_fields.each do |field|
-          self.html_terminator_fields[field] = options.deep_dup
-        end
+      unless self.html_terminator_fields.empty?
+        before_validation :terminate_html
 
-        unless self.html_terminator_fields.empty?
-          before_validation :terminate_html
-
-          # sanitize reads
-          valid_fields.each do |attr|
-            define_method(attr) do |*rargs|
-              # sanitize it
-              HtmlTerminator.sanitize super(*rargs), options
-            end
+        # sanitize reads
+        args.each do |attr|
+          define_method(attr) do |*rargs|
+            # sanitize it
+            HtmlTerminator.sanitize super(*rargs), options
           end
         end
       end
-    rescue ActiveRecord::ConnectionNotEstablished
-      # Treat as if the table doesn't exist
     end
   end
 
